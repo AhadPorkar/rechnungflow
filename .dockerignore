@@ -1,0 +1,9 @@
+.git
+build
+var*
+tools
+__pycache__
+*.zip
+*.jar
+.env
+*.key

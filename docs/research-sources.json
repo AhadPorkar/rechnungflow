@@ -1,0 +1,135 @@
+{
+  "researchDate": "2026-10-10",
+  "sources": [
+    {
+      "title": "BMF e-invoice FAQ",
+      "url": "https://www.bundesfinanzministerium.de/Content/DE/FAQ/e-rechnung.html",
+      "decision": "German receipt/issuance context and transition distinctions."
+    },
+    {
+      "title": "UStG section 14",
+      "url": "https://www.gesetze-im-internet.de/ustg_1980/__14.html",
+      "decision": "Invoice law; customer-specific legal review remains necessary."
+    },
+    {
+      "title": "UStG section 14b",
+      "url": "https://www.gesetze-im-internet.de/ustg_1980/__14b.html",
+      "decision": "Retention baseline, not an archive certification."
+    },
+    {
+      "title": "KoSIT validator 1.6.3",
+      "url": "https://github.com/itplr-kosit/validator/releases/tag/v1.6.3",
+      "decision": "Pinned security-fix release; binaries not downloaded here."
+    },
+    {
+      "title": "XRechnung configuration 2026-08-31",
+      "url": "https://github.com/itplr-kosit/validator-configuration-xrechnung/releases/tag/v2026-08-31",
+      "decision": "Pinned configuration; real acceptance outstanding."
+    },
+    {
+      "title": "KoSIT public API",
+      "url": "https://github.com/itplr-kosit/validator/blob/main/docs/api.md",
+      "decision": "Result acceptance is separate from processing success."
+    },
+    {
+      "title": "KoSIT CLI",
+      "url": "https://github.com/itplr-kosit/validator/blob/main/docs/cli.md",
+      "decision": "Evaluated; isolated public API worker selected."
+    },
+    {
+      "title": "KoSIT Result API",
+      "url": "https://github.com/itplr-kosit/validator/blob/main/src/main/java/de/kosit/validationtool/api/Result.java",
+      "decision": "Acceptance recommendation and report boundary."
+    },
+    {
+      "title": "KoSIT XRechnung project",
+      "url": "https://github.com/itplr-kosit/validator-configuration-xrechnung",
+      "decision": "Configuration repository and licensing review."
+    },
+    {
+      "title": "FeRD ZUGFeRD",
+      "url": "https://www.ferd-net.de/standards/zugferd",
+      "decision": "Evaluated; hybrid-PDF extraction is not implemented."
+    },
+    {
+      "title": "OpenAPI 3.1.1",
+      "url": "https://spec.openapis.org/oas/v3.1.1.html",
+      "decision": "Machine-readable HTTP contract, not certification."
+    },
+    {
+      "title": "OWASP XML external entity prevention",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html",
+      "decision": "Disable DTD/external resolution and bound input."
+    },
+    {
+      "title": "OWASP file upload",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html",
+      "decision": "Size, name, type, storage and display boundaries."
+    },
+    {
+      "title": "OWASP password storage",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html",
+      "decision": "PBKDF2-HMAC-SHA256 work factor and salts."
+    },
+    {
+      "title": "OWASP CSRF prevention",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+      "decision": "Session mutation token and origin controls."
+    },
+    {
+      "title": "OWASP session management",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+      "decision": "Session expiry, cookie flags and revocation."
+    },
+    {
+      "title": "Java 21 HttpClient",
+      "url": "https://docs.oracle.com/en/java/javase/21/docs/api/java.net.http/java/net/http/HttpClient.html",
+      "decision": "Bounded outbound transport and explicit uncertainty."
+    },
+    {
+      "title": "Java 21 virtual threads",
+      "url": "https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html",
+      "decision": "Virtual threads with application concurrency limits."
+    },
+    {
+      "title": "Playwright assertions",
+      "url": "https://playwright.dev/python/docs/test-assertions",
+      "decision": "Retrying locator assertions without unsafe evaluation."
+    },
+    {
+      "title": "GitHub Actions matrix",
+      "url": "https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs",
+      "decision": "Independent Java/OS results, fail-fast disabled."
+    },
+    {
+      "title": "GitHub Actions security",
+      "url": "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions",
+      "decision": "Least permissions and release review."
+    },
+    {
+      "title": "Spring Boot system requirements",
+      "url": "https://docs.spring.io/spring-boot/system-requirements.html",
+      "decision": "Evaluated alternative; Spring Boot is NOT used."
+    },
+    {
+      "title": "GitHub checkout",
+      "url": "https://github.com/actions/checkout",
+      "decision": "Current documented action major selected; hosted execution remains unverified."
+    },
+    {
+      "title": "GitHub setup-java",
+      "url": "https://github.com/actions/setup-java",
+      "decision": "Current documented action major selected; hosted execution remains unverified."
+    },
+    {
+      "title": "GitHub setup-python",
+      "url": "https://github.com/actions/setup-python",
+      "decision": "Current documented action major selected; hosted execution remains unverified."
+    },
+    {
+      "title": "GitHub upload-artifact",
+      "url": "https://github.com/actions/upload-artifact",
+      "decision": "Current documented action major selected; hosted execution remains unverified."
+    }
+  ]
+}

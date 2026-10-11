@@ -1,0 +1,29 @@
+# Strict single-node template. Configure a trusted TLS proxy separately.
+# Do not use --demo: demo binding is intentionally loopback-only.
+services:
+  rechnungflow:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8090:8090"
+    environment:
+      RF_WORKSPACE: ${RF_WORKSPACE:-workspace}
+      RF_PUBLIC_ORIGIN: ${RF_PUBLIC_ORIGIN:?Set the exact HTTPS browser origin}
+      RF_MASTER_KEY: ${RF_MASTER_KEY:?Provide a separate base64 32-byte key}
+      RF_ACK_SINGLE_NODE: "true"
+      RF_KOSIT_DIR: /validator
+      RF_ACCOUNTING_URL: ${RF_ACCOUNTING_URL:-}
+      RF_ACCOUNTING_TOKEN: ${RF_ACCOUNTING_TOKEN:-}
+      RF_ACCOUNTING_IDEMPOTENT: ${RF_ACCOUNTING_IDEMPOTENT:-false}
+    volumes:
+      - invoice-data:/data
+      - ./tools/kosit:/validator:ro
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+volumes:
+  invoice-data:

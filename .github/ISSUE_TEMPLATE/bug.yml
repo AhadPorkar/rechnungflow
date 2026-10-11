@@ -1,0 +1,28 @@
+name: Bug report / Fehler / گزارش خطا
+description: Reproducible behavior with synthetic data only.
+body:
+  - type: markdown
+    attributes:
+      value: Do not post secrets or real invoices. Keine echten Belege. سند واقعی ارسال نکنید.
+  - type: input
+    id: version
+    attributes:
+      label: Version, OS and Java / Version, OS und Java / نسخه و محیط
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction / Reproduktion / مراحل بازتولید
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Expected and observed / Erwartet und beobachtet / انتظار و مشاهده
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized request ID and test logs / Bereinigte Nachweise / شواهد پاک‌سازی‌شده

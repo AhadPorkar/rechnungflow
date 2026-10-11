@@ -1,0 +1,37 @@
+name: Explicit official validator acceptance
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  kosit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - run: python scripts/build.py
+      - name: Download and pin official release inputs
+        run: python scripts/setup_kosit.py
+      - name: Genuine candidate acceptance, not a mock
+        run: python scripts/validate_kosit.py --kosit tools/kosit --input examples/invoices/01-ubl-office.xml --expect PASS --report build/kosit-acceptance/positive.json
+      - name: Genuine negative acceptance
+        run: python scripts/validate_kosit.py --kosit tools/kosit --input examples/invoices/05-ubl-bad-total.xml --expect FAIL --report build/kosit-acceptance/negative.json
+      - name: Preserve real validation reports and input manifest
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: official-validation-evidence
+          path: |
+            build/kosit-acceptance/
+            tools/kosit/manifest.json
+          if-no-files-found: warn
+          retention-days: 14

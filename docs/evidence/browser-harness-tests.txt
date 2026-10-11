@@ -1,0 +1,87 @@
+Browser transport: harness
+test_api_key_create_and_secret_once (__main__.Browser.test_api_key_create_and_secret_once) ... ok
+test_approve_action (__main__.Browser.test_approve_action) ... ok
+test_auditor_is_read_only (__main__.Browser.test_auditor_is_read_only) ... ok
+test_close_pending_dialog_no_crash (__main__.Browser.test_close_pending_dialog_no_crash) ... ok
+test_comment_xss_is_text (__main__.Browser.test_comment_xss_is_text) ... ok
+test_direct_route_still_denied (__main__.Browser.test_direct_route_still_denied) ... ok
+test_filter_exact_invoice (__main__.Browser.test_filter_exact_invoice) ... ok
+test_filter_no_match (__main__.Browser.test_filter_no_match) ... ok
+test_form_cannot_delete_last_admin (__main__.Browser.test_form_cannot_delete_last_admin) ... ok
+test_intake_cannot_see_approval_action (__main__.Browser.test_intake_cannot_see_approval_action) ... ok
+test_invoice_tab_de_comments (__main__.Browser.test_invoice_tab_de_comments) ... ok
+test_invoice_tab_de_history (__main__.Browser.test_invoice_tab_de_history) ... ok
+test_invoice_tab_de_overview (__main__.Browser.test_invoice_tab_de_overview) ... ok
+test_invoice_tab_de_validation (__main__.Browser.test_invoice_tab_de_validation) ... ok
+test_invoice_tab_en_comments (__main__.Browser.test_invoice_tab_en_comments) ... ok
+test_invoice_tab_en_history (__main__.Browser.test_invoice_tab_en_history) ... ok
+test_invoice_tab_en_overview (__main__.Browser.test_invoice_tab_en_overview) ... ok
+test_invoice_tab_en_validation (__main__.Browser.test_invoice_tab_en_validation) ... ok
+test_invoice_tab_fa_comments (__main__.Browser.test_invoice_tab_fa_comments) ... ok
+test_invoice_tab_fa_history (__main__.Browser.test_invoice_tab_fa_history) ... ok
+test_invoice_tab_fa_overview (__main__.Browser.test_invoice_tab_fa_overview) ... ok
+test_invoice_tab_fa_validation (__main__.Browser.test_invoice_tab_fa_validation) ... ok
+test_mobile_de_dashboard (__main__.Browser.test_mobile_de_dashboard) ... ok
+test_mobile_de_invoices (__main__.Browser.test_mobile_de_invoices) ... ok
+test_mobile_de_policy (__main__.Browser.test_mobile_de_policy) ... ok
+test_mobile_de_suppliers (__main__.Browser.test_mobile_de_suppliers) ... ok
+test_mobile_en_dashboard (__main__.Browser.test_mobile_en_dashboard) ... ok
+test_mobile_en_invoices (__main__.Browser.test_mobile_en_invoices) ... ok
+test_mobile_en_policy (__main__.Browser.test_mobile_en_policy) ... ok
+test_mobile_en_suppliers (__main__.Browser.test_mobile_en_suppliers) ... ok
+test_mobile_fa_dashboard (__main__.Browser.test_mobile_fa_dashboard) ... ok
+test_mobile_fa_invoices (__main__.Browser.test_mobile_fa_invoices) ... ok
+test_mobile_fa_policy (__main__.Browser.test_mobile_fa_policy) ... ok
+test_mobile_fa_suppliers (__main__.Browser.test_mobile_fa_suppliers) ... ok
+test_mobile_menu_navigation (__main__.Browser.test_mobile_menu_navigation) ... ok
+test_native_csp_rejects_inline_script (__main__.Browser.test_native_csp_rejects_inline_script) ... skipped 'Native CSP enforcement cannot be verified with harness transport.'
+test_native_session_cookie_flags (__main__.Browser.test_native_session_cookie_flags) ... skipped 'Harness does not exercise browser cookie transport.'
+test_navigation_hides_admin_pages (__main__.Browser.test_navigation_hides_admin_pages) ... ok
+test_password_dialog_has_minimum (__main__.Browser.test_password_dialog_has_minimum) ... ok
+test_policy_form_roundtrip (__main__.Browser.test_policy_form_roundtrip) ... ok
+test_reject_with_reason (__main__.Browser.test_reject_with_reason) ... ok
+test_retention_hold_action (__main__.Browser.test_retention_hold_action) ... ok
+test_revalidation_history_action (__main__.Browser.test_revalidation_history_action) ... ok
+test_review_action_reaches_approval (__main__.Browser.test_review_action_reaches_approval) ... ok
+test_stage_filter (__main__.Browser.test_stage_filter) ... ok
+test_supplier_create (__main__.Browser.test_supplier_create) ... ok
+test_supplier_verification_requires_checkbox (__main__.Browser.test_supplier_verification_requires_checkbox) ... ok
+test_upload_dialog_cancel (__main__.Browser.test_upload_dialog_cancel) ... ok
+test_upload_real_xml (__main__.Browser.test_upload_real_xml) ... ok
+test_upload_unsafe_xml_becomes_exception (__main__.Browser.test_upload_unsafe_xml_becomes_exception) ... ok
+test_user_create_form_roles (__main__.Browser.test_user_create_form_roles) ... ok
+test_view_de_approvals (__main__.Browser.test_view_de_approvals) ... ok
+test_view_de_audit (__main__.Browser.test_view_de_audit) ... ok
+test_view_de_dashboard (__main__.Browser.test_view_de_dashboard) ... ok
+test_view_de_docs (__main__.Browser.test_view_de_docs) ... ok
+test_view_de_invoices (__main__.Browser.test_view_de_invoices) ... ok
+test_view_de_jobs (__main__.Browser.test_view_de_jobs) ... ok
+test_view_de_policy (__main__.Browser.test_view_de_policy) ... ok
+test_view_de_suppliers (__main__.Browser.test_view_de_suppliers) ... ok
+test_view_de_system (__main__.Browser.test_view_de_system) ... ok
+test_view_de_users (__main__.Browser.test_view_de_users) ... ok
+test_view_en_approvals (__main__.Browser.test_view_en_approvals) ... ok
+test_view_en_audit (__main__.Browser.test_view_en_audit) ... ok
+test_view_en_dashboard (__main__.Browser.test_view_en_dashboard) ... ok
+test_view_en_docs (__main__.Browser.test_view_en_docs) ... ok
+test_view_en_invoices (__main__.Browser.test_view_en_invoices) ... ok
+test_view_en_jobs (__main__.Browser.test_view_en_jobs) ... ok
+test_view_en_policy (__main__.Browser.test_view_en_policy) ... ok
+test_view_en_suppliers (__main__.Browser.test_view_en_suppliers) ... ok
+test_view_en_system (__main__.Browser.test_view_en_system) ... ok
+test_view_en_users (__main__.Browser.test_view_en_users) ... ok
+test_view_fa_approvals (__main__.Browser.test_view_fa_approvals) ... ok
+test_view_fa_audit (__main__.Browser.test_view_fa_audit) ... ok
+test_view_fa_dashboard (__main__.Browser.test_view_fa_dashboard) ... ok
+test_view_fa_docs (__main__.Browser.test_view_fa_docs) ... ok
+test_view_fa_invoices (__main__.Browser.test_view_fa_invoices) ... ok
+test_view_fa_jobs (__main__.Browser.test_view_fa_jobs) ... ok
+test_view_fa_policy (__main__.Browser.test_view_fa_policy) ... ok
+test_view_fa_suppliers (__main__.Browser.test_view_fa_suppliers) ... ok
+test_view_fa_system (__main__.Browser.test_view_fa_system) ... ok
+test_view_fa_users (__main__.Browser.test_view_fa_users) ... ok
+
+----------------------------------------------------------------------
+Ran 81 tests in 33.458s
+
+OK (skipped=2)

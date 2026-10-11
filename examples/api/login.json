@@ -1,0 +1,5 @@
+{
+  "tenant": "demo",
+  "login": "admin",
+  "password": "REPLACE_WITH_BOOTSTRAP_PASSWORD"
+}
