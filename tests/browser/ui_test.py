@@ -40,7 +40,7 @@ class Browser(unittest.TestCase):
     body=body if isinstance(body,bytes) else json.dumps(body,ensure_ascii=False).encode()
     return {'status':status,'body':base64.b64encode(body).decode(),'headers':headers}
    self.page.expose_function('rfBridge',bridge)
-   self.page.set_content('<html><head><title>RechnungFlow</title></head><body><div id="app"></div><div id="toasts" aria-live="polite"></div></body></html>')
+   self.page.set_content('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RechnungFlow</title></head><body><div id="app"></div><div id="toasts" aria-live="polite"></div></body></html>')
    self.page.add_style_tag(content=(ASSETS/'styles.css').read_text(encoding='utf-8'))
    self.page.evaluate('''([language,route])=>{const memory=new Map([['rf.language',language]]);Object.defineProperty(window,'localStorage',{value:{getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,String(v)),removeItem:k=>memory.delete(k)}});location.hash=route;
    window.fetch=async(url,o={})=>{let body=null;if(o.body!==undefined){let b=o.body;if(b instanceof Blob)b=await b.arrayBuffer();let bytes=typeof b==='string'?new TextEncoder().encode(b):new Uint8Array(b);let text='';for(let i=0;i<bytes.length;i+=8192)text+=String.fromCharCode(...bytes.subarray(i,i+8192));body=btoa(text);}let r=await rfBridge({url:String(url),method:o.method||'GET',headers:Object.fromEntries(new Headers(o.headers||{})),body});return new Response(Uint8Array.from(atob(r.body),x=>x.charCodeAt(0)),{status:r.status,headers:r.headers});};
@@ -48,6 +48,8 @@ class Browser(unittest.TestCase):
    logo='data:image/svg+xml;base64,'+base64.b64encode((ASSETS/'icon.svg').read_bytes()).decode()
    self.page.evaluate('''logo=>{new MutationObserver(()=>document.querySelectorAll('img[src="/icon.svg"]').forEach(x=>x.src=logo)).observe(document.body,{childList:true,subtree:true});}''',logo)
    self.page.add_script_tag(content='(async()=>{'+(ASSETS/'app.js').read_text(encoding='utf-8')+'})().catch(e=>{throw e;});')
+  # The harness must use the same standards layout mode as the real index.html.
+  self.assertEqual('CSS1Compat',self.page.evaluate('()=>document.compatMode'))
   if role:self.ready()
   else:expect(self.page.locator('#login-form')).to_be_visible()
   self.loaded=True

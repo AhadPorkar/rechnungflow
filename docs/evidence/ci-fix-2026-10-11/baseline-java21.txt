@@ -1,0 +1,538 @@
+
+> /opt/pyvenv/bin/python scripts/build.py
+Built rechnungflow-0.1.0.jar (236,007 bytes); 27 Java source files.
+
+> javac --release 21 -encoding UTF-8 -cp /mnt/data/rechnungflow_review/rechnungflow/build/classes -d /mnt/data/rechnungflow_review/rechnungflow/build/test-classes @/mnt/data/rechnungflow_review/rechnungflow/build/test-sources.args
+
+> java -cp /mnt/data/rechnungflow_review/rechnungflow/build/classes:/mnt/data/rechnungflow_review/rechnungflow/build/test-classes io.ahad.rechnungflow.testing.CoreTest
+PASS core :: JSON nested round trip
+PASS core :: JSON canonical key ordering
+PASS core :: JSON null
+PASS core :: JSON whitespace
+PASS core :: JSON escaped unicode
+PASS core :: JSON surrogate pair
+PASS core :: JSON exponent parsed precisely
+PASS core :: JSON rejects {"a":1,"a":2}
+PASS core :: JSON rejects [1,]
+PASS core :: JSON rejects {"a":}
+PASS core :: JSON rejects {a:1}
+PASS core :: JSON rejects 01
+PASS core :: JSON rejects NaN
+PASS core :: JSON rejects Infinity
+PASS core :: JSON rejects 1 2
+PASS core :: JSON rejects "\uD800"
+PASS core :: JSON rejects "\uDC00"
+PASS core :: JSON rejects "line\n"
+PASS core :: JSON rejects [
+PASS core :: JSON rejects null x
+PASS core :: JSON depth limited
+PASS core :: JSON input size bounded
+PASS core :: JSON does not serialize nonfinite
+PASS core :: required trims surrounding whitespace
+PASS core :: required rejects blank
+PASS core :: required rejects wrong type
+PASS core :: required rejects long values
+PASS core :: required rejects NUL
+PASS core :: decimal exact cents
+PASS core :: decimal rejects exponent
+PASS core :: identity normalization
+PASS core :: filename eliminates path traversal
+PASS core :: filename strips CRLF
+PASS core :: UUID validated
+PASS core :: UUID traversal invalid
+PASS core :: CSV quotes doubled
+PASS core :: CSV neutralizes formula =1+1
+PASS core :: CSV neutralizes formula +SUM(A1)
+PASS core :: CSV neutralizes formula -1+1
+PASS core :: CSV neutralizes formula @cmd
+PASS core :: CSV neutralizes formula 	=cmd
+PASS core :: CSV neutralizes formula =cmd
+PASS core :: XML escapes markup
+PASS core :: SHA256 known answer
+PASS core :: tokens random and URL-safe
+PASS core :: AES-GCM round trip
+PASS core :: AES-GCM nonce uniqueness
+PASS core :: AES-GCM wrong tenant denied
+PASS core :: AES-GCM tampering denied
+PASS core :: AES-GCM wrong key denied
+PASS core :: AES-GCM short ciphertext denied
+PASS core :: password hashes verify
+PASS core :: password salts unique
+PASS core :: password too short denied
+PASS core :: password too long denied
+PASS core :: malformed hashes fail closed
+PASS core :: MemoryStore read isolation
+PASS core :: MemoryStore returned write isolation
+PASS core :: MemoryStore rollback
+PASS core :: FileStore persists encrypted state
+PASS core :: FileStore exclusive lock
+PASS core :: FileStore supplied key not written
+PASS core :: FileStore invalid key rejected
+PASS core :: FileStore missing key refuses reset
+PASS core :: FileStore corrupt snapshot rejected
+PASS core :: FileStore rollback remains after reopen
+PASS core :: FileStore close prevents reads
+PASS core :: BlobVault preserves exact bytes
+PASS core :: BlobVault tenant boundary
+PASS core :: BlobVault path traversal denied
+PASS core :: BlobVault corrupted blob fails integrity
+PASS core :: Audit hash-chain verifies
+PASS core :: Audit detects changed record
+PASS core :: Audit detects removed interior record
+PASS core :: Audit tenant separation
+core: 75 tests, 0 failures
+
+> java -cp /mnt/data/rechnungflow_review/rechnungflow/build/classes:/mnt/data/rechnungflow_review/rechnungflow/build/test-classes io.ahad.rechnungflow.testing.IngestTest
+PASS ingest :: UBL namespace parsing
+PASS ingest :: UBL invoice number
+PASS ingest :: UBL tax identifier
+PASS ingest :: UBL exact payable
+PASS ingest :: UBL seller IBAN
+PASS ingest :: UBL items available
+PASS ingest :: CII namespace parsing
+PASS ingest :: CII amounts
+PASS ingest :: CII seller identity
+PASS ingest :: Credit note distinguished
+PASS ingest :: Synthetic fixture plausibility 01-ubl-office.xml
+PASS ingest :: Synthetic fixture plausibility 02-ubl-machinery.xml
+PASS ingest :: Synthetic fixture plausibility 03-ubl-approved.xml
+PASS ingest :: Synthetic fixture plausibility 04-ubl-export.xml
+PASS ingest :: Synthetic fixture plausibility 06-ubl-bank-change.xml
+PASS ingest :: Synthetic fixture plausibility 07-cii-consulting.xml
+PASS ingest :: Synthetic fixture plausibility 08-ubl-credit-note.xml
+PASS ingest :: Synthetic fixture plausibility 09-ubl-corrected.xml
+PASS ingest :: Bad totals detected
+PASS ingest :: Forged root namespace rejected
+PASS ingest :: DTD and file entities rejected
+PASS ingest :: HTTP entity rejected
+PASS ingest :: Entity expansion rejected
+PASS ingest :: Malformed XML rejected
+PASS ingest :: Excessive XML depth rejected
+PASS ingest :: Excessive XML nodes rejected
+PASS ingest :: XML over upload bound rejected
+PASS ingest :: XInclude is never fetched
+PASS ingest :: Missing invoice number detected
+PASS ingest :: Missing seller name detected
+PASS ingest :: Missing buyer name detected
+PASS ingest :: Invalid issue date 2026-02-30
+PASS ingest :: Invalid issue date 2026-13-01
+PASS ingest :: Invalid issue date 0000-01-01
+PASS ingest :: Invalid issue date 2026-1-01
+PASS ingest :: Invalid issue date 2026-01-01T00:00:00Z
+PASS ingest :: Unknown currency detected
+PASS ingest :: Unsupported invoice type
+PASS ingest :: Credit type against invoice root denied
+PASS ingest :: Insufficient profile urn:minimum
+PASS ingest :: Insufficient profile urn:basicwl
+PASS ingest :: Insufficient profile urn:basic-wl
+PASS ingest :: Fractional cents rejected
+PASS ingest :: Total exponent denied
+PASS ingest :: Payable reconciliation detects mismatch
+PASS ingest :: Allowance reconciliation detects mismatch
+PASS ingest :: Prepayment reconciliation accepted
+PASS ingest :: Missing line detected
+PASS ingest :: Duplicate line ID detected
+PASS ingest :: Missing line description
+PASS ingest :: Line sum reconciliation
+PASS ingest :: Tax sum reconciliation
+PASS ingest :: Quantity numeric validation
+PASS ingest :: Valid German IBAN
+PASS ingest :: Spaced lowercase IBAN normalized
+PASS ingest :: Invalid IBAN checksum
+PASS ingest :: Invalid IBAN country length
+PASS ingest :: Invalid IBAN symbols
+PASS ingest :: XML decimal permits leading zeros
+PASS ingest :: XML decimal permits explicit positive
+PASS ingest :: XML decimal permits fractional form
+PASS ingest :: Decimal boundary rejects 1e3
+PASS ingest :: Decimal boundary rejects NaN
+PASS ingest :: Decimal boundary rejects Infinity
+PASS ingest :: Decimal boundary rejects 1,00
+PASS ingest :: Decimal boundary rejects 1.123456789
+PASS ingest :: Decimal boundary rejects 1234567890123456
+PASS ingest :: Unconfigured official validation fails closed
+PASS ingest :: Unconfigured validator not reported installed
+ingest: 69 tests, 0 failures
+
+> java -cp /mnt/data/rechnungflow_review/rechnungflow/build/classes:/mnt/data/rechnungflow_review/rechnungflow/build/test-classes io.ahad.rechnungflow.testing.WorkflowTest
+PASS workflow :: Intake preserves byte-identical original
+PASS workflow :: Demo explicitly has no official pass
+PASS workflow :: Malformed input stored as exception without extracted data
+PASS workflow :: Incorrect totals route to exception
+PASS workflow :: Intake idempotency replay same result
+PASS workflow :: Idempotency rejects changed content
+PASS workflow :: Exact duplicate returns existing invoice
+PASS workflow :: Semantic duplicate blocks both cases
+PASS workflow :: Rejecting semantic duplicate unblocks remaining
+PASS workflow :: Correction links and supersedes original
+PASS workflow :: Approved invoice cannot be superseded
+PASS workflow :: Intake key mandatory
+PASS workflow :: Unsafe idempotency characters rejected
+PASS workflow :: Read-only actor cannot upload
+PASS workflow :: Cross-tenant invoice hidden
+PASS workflow :: API key cannot read another intake actor case
+PASS workflow :: Pagination size enforced
+PASS workflow :: Pagination negative page enforced
+PASS workflow :: Search finds invoice by number
+PASS workflow :: Unknown supplier blocks review
+PASS workflow :: Supplier identity uniqueness
+PASS workflow :: Supplier creator cannot verify own bank data
+PASS workflow :: Supplier verification requires external confirmation
+PASS workflow :: Invalid bank account rejected
+PASS workflow :: Invoice bank change blocks review
+PASS workflow :: Uploader cannot review even with admin role
+PASS workflow :: Review stores coding and snapshot version
+PASS workflow :: Review requires cost coding
+PASS workflow :: Review rejects stale version
+PASS workflow :: Approver cannot approve before review
+PASS workflow :: Reviewer cannot approve own review with extra role
+PASS workflow :: Uploader cannot approve with extra role
+PASS workflow :: Low value needs one independent approver
+PASS workflow :: High value needs two different approvers
+PASS workflow :: Repeated approver cannot count twice
+PASS workflow :: Approval has optimistic version check
+PASS workflow :: Rejected invoice cannot proceed
+PASS workflow :: Rejection reason required
+PASS workflow :: Policy changes do not silently change existing snapshot
+PASS workflow :: Policy changes require version
+PASS workflow :: Policy cannot lower retention below eight years
+PASS workflow :: Policy cannot enable demo through update
+PASS workflow :: Buyer identity mismatch blocks review
+PASS workflow :: Unsupported policy currency blocks review
+PASS workflow :: Retention hold records actor and reason
+PASS workflow :: Auditor cannot change retention hold
+PASS workflow :: Comments preserve literal markup not executable objects
+PASS workflow :: Comment cap enforced
+PASS workflow :: Read-only actor cannot comment
+PASS workflow :: Supplier change invalidates approvals
+PASS workflow :: Supplier change cancels unclaimed export
+PASS workflow :: Uncertain export blocks supplier mutation
+PASS workflow :: Export rejects invoice not approved
+PASS workflow :: Export requires finance role
+PASS workflow :: Export queue changes stage atomically
+PASS workflow :: Export command replay returns same job
+PASS workflow :: Demo payload cannot masquerade as real accounting
+PASS workflow :: Evidence package includes exact original and manifest
+PASS workflow :: Intake actor cannot extract whole evidence bundle
+PASS workflow :: CSV export neutralizes invoice number formula
+PASS workflow :: Audit integrity after lifecycle
+PASS workflow :: Audit cannot be read by intake actor
+PASS workflow :: Dashboard computes counts from actual state
+PASS workflow :: Credit note reduces open amount
+PASS workflow :: Revalidation keeps original immutable
+PASS workflow :: STRICT cannot proceed without official validator
+PASS workflow :: Synthetic engine PASS releases strict workflow only in unit fixture
+PASS workflow :: STRICT engine FAIL blocks approval
+PASS workflow :: STRICT engine ERROR blocks approval
+PASS workflow :: STRICT engine TIMEOUT blocks approval
+PASS workflow :: STRICT engine BUSY blocks approval
+PASS workflow :: STRICT engine UNAVAILABLE blocks approval
+workflow: 72 tests, 0 failures
+
+> java -cp /mnt/data/rechnungflow_review/rechnungflow/build/classes:/mnt/data/rechnungflow_review/rechnungflow/build/test-classes io.ahad.rechnungflow.testing.AuthTest
+PASS auth :: Valid password establishes a session
+PASS auth :: Wrong password is denied
+PASS auth :: Unknown identity is denied
+PASS auth :: Cross-tenant login is denied
+PASS auth :: Login is case insensitive
+PASS auth :: Login response never returns password hash
+PASS auth :: Session stored as hash rather than bearer secret
+PASS auth :: Missing session rejected
+PASS auth :: Malformed session rejected
+PASS auth :: Unknown session rejected
+PASS auth :: Logout immediately revokes session
+PASS auth :: Idle timeout is thirty minutes
+PASS auth :: Activity refreshes idle deadline
+PASS auth :: Absolute expiry survives activity
+PASS auth :: CSRF token is bound to session secret
+PASS auth :: Password change revokes sessions
+PASS auth :: Password change requires current password
+PASS auth :: New user receives forced password change
+PASS auth :: Username uniqueness is tenant scoped
+PASS auth :: Unknown roles cannot be assigned
+PASS auth :: Non-admin cannot enumerate users
+PASS auth :: Last administrator cannot be deactivated
+PASS auth :: Last administrator role cannot be removed
+PASS auth :: Deactivation invalidates active session
+PASS auth :: Role change invalidates active session
+PASS auth :: API key is intake-only
+PASS auth :: API key list omits hashes and tokens
+PASS auth :: API key revocation immediate
+PASS auth :: API key expiry enforced
+PASS auth :: API key lifetime bound enforced
+PASS auth :: Non-admin cannot create API keys
+PASS auth :: Token prefix and length validated
+PASS auth :: User updates cannot cross tenant
+PASS auth :: Login throttling rejects thirteenth attempt
+auth: 34 tests, 0 failures
+
+> java -cp /mnt/data/rechnungflow_review/rechnungflow/build/classes:/mnt/data/rechnungflow_review/rechnungflow/build/test-classes io.ahad.rechnungflow.testing.OutboxTest
+PASS outbox :: DEMO uses ledger without calling external accounting
+PASS outbox :: Delivered acknowledgement updates invoice and job
+PASS outbox :: Empty queue produces no delivery
+PASS outbox :: Ambiguous result is never automatically repeated
+PASS outbox :: Unexpected adapter exception becomes UNKNOWN
+PASS outbox :: Missing receipt cannot be treated as delivery
+PASS outbox :: Unknown adapter result fails conservatively
+PASS outbox :: Unconfigured accounting is BLOCKED
+PASS outbox :: Retryable rejection schedules bounded retry
+PASS outbox :: Fifth retryable attempt stops at FAILED
+PASS outbox :: Restart marks in-flight work UNKNOWN
+PASS outbox :: Restart leaves pending work pending
+PASS outbox :: Known-not-delivered resolution permits explicit retry
+PASS outbox :: Confirmed destination receipt resolves UNKNOWN
+PASS outbox :: Reconciliation needs receipt
+PASS outbox :: Reconciliation requires finance authorization
+PASS outbox :: Delivered work cannot be reset via reconciliation
+PASS outbox :: New duplicate before delivery blocks destination call
+PASS outbox :: Job listing omits accounting payload
+PASS outbox :: External idempotency key stable across attempts
+PASS outbox :: Accounting destination rejects http://example.com/api
+PASS outbox :: Accounting destination rejects file:///etc/passwd
+PASS outbox :: Accounting destination rejects ftp://example.com
+PASS outbox :: Accounting destination rejects https://user:pass@example.com/
+PASS outbox :: Accounting destination rejects https://example.com/#fragment
+PASS outbox :: Header injection token denied
+PASS outbox :: HTTP accounting status 200
+PASS outbox :: HTTP accounting status 201
+PASS outbox :: HTTP accounting status 204
+PASS outbox :: HTTP accounting status 400
+PASS outbox :: HTTP accounting status 401
+PASS outbox :: HTTP accounting status 403
+PASS outbox :: HTTP accounting status 404
+PASS outbox :: HTTP accounting status 408
+PASS outbox :: HTTP accounting status 429
+PASS outbox :: HTTP accounting status 500
+PASS outbox :: HTTP accounting status 503
+PASS outbox :: HTTP accounting status 307
+PASS outbox :: Idempotency-attested 429 is retryable
+PASS outbox :: Idempotency-attested 503 is retryable
+PASS outbox :: Malformed acknowledgement remains UNKNOWN
+PASS outbox :: Acknowledgement cannot name another invoice
+PASS outbox :: Oversized response bounded
+PASS outbox :: Timeout never pretends destination rolled back
+PASS outbox :: Idempotency header delivered to destination
+outbox: 45 tests, 0 failures
+
+> java -cp /mnt/data/rechnungflow_review/rechnungflow/build/classes:/mnt/data/rechnungflow_review/rechnungflow/build/test-classes io.ahad.rechnungflow.testing.ValidationTest
+PASS validation :: Empty report has no fabricated diagnostics
+PASS validation :: Failed assertion defaults to error
+PASS validation :: Successful report defaults to warning
+PASS validation :: Explicit severity retained
+PASS validation :: Role used when flag absent
+PASS validation :: Wrong namespace cannot impersonate SVRL
+PASS validation :: Rule identifier retained
+PASS validation :: XPath retained for diagnostics
+PASS validation :: Nested diagnostic text extracted
+PASS validation :: Diagnostic message bounded
+PASS validation :: Diagnostic id bounded
+PASS validation :: Diagnostic count bounded
+PASS validation :: Diagnostic whitespace normalized
+PASS validation :: Wrong validator version refused
+PASS validation :: Wrong rules release refused
+PASS validation :: Changed JAR refused
+PASS validation :: Empty configuration hashes refused
+PASS validation :: Changed schema refused
+PASS validation :: Manifest escape refused
+PASS validation :: Unrecorded configuration file refused
+PASS validation :: Initial validation attempt retained
+PASS validation :: Revalidation appends instead of replacing history
+PASS validation :: Revalidation preserves original hash
+PASS validation :: Unavailable historical report is explicit
+PASS validation :: Out-of-range historical report is explicit
+PASS validation :: Historical report stored as encrypted blob
+PASS validation :: Evidence contains historical report
+PASS validation :: Revalidation history cannot bypass attempt bound
+PASS validation :: Export contains explicit validation provenance
+validation: 29 tests, 0 failures
+
+> /opt/pyvenv/bin/python tests/http_test.py
+test_api_key_create_use_and_revoke (__main__.HTTP.test_api_key_create_use_and_revoke) ... ok
+test_api_key_list_hides_secrets (__main__.HTTP.test_api_key_list_hides_secrets) ... ok
+test_approval_before_review_denied (__main__.HTTP.test_approval_before_review_denied) ... ok
+test_audit_integrity_real_changes (__main__.HTTP.test_audit_integrity_real_changes) ... ok
+test_audit_pagination (__main__.HTTP.test_audit_pagination) ... ok
+test_comment_xss_is_data (__main__.HTTP.test_comment_xss_is_data) ... ok
+test_cookie_attributes (__main__.HTTP.test_cookie_attributes) ... ok
+test_cookie_policy_on_login (__main__.HTTP.test_cookie_policy_on_login) ... ok
+test_cross_origin_rejected (__main__.HTTP.test_cross_origin_rejected) ... ok
+test_cross_site_fetch_rejected (__main__.HTTP.test_cross_site_fetch_rejected) ... ok
+test_csrf_missing (__main__.HTTP.test_csrf_missing) ... ok
+test_csrf_wrong (__main__.HTTP.test_csrf_wrong) ... ok
+test_csv_download (__main__.HTTP.test_csv_download) ... ok
+test_duplicate_cookies_denied (__main__.HTTP.test_duplicate_cookies_denied) ... ok
+test_duplicate_json_key_rejected (__main__.HTTP.test_duplicate_json_key_rejected) ... ok
+test_duplicate_query_parameter_rejected (__main__.HTTP.test_duplicate_query_parameter_rejected) ... ok
+test_error_envelope_no_stack (__main__.HTTP.test_error_envelope_no_stack) ... ok
+test_evidence_zip (__main__.HTTP.test_evidence_zip) ... ok
+test_full_four_eyes_flow_to_export_queue (__main__.HTTP.test_full_four_eyes_flow_to_export_queue) ... ok
+test_git_path_unavailable (__main__.HTTP.test_git_path_unavailable) ... ok
+test_gzip_request_rejected (__main__.HTTP.test_gzip_request_rejected) ... ok
+test_health_public (__main__.HTTP.test_health_public) ... ok
+test_hidden_env_unavailable (__main__.HTTP.test_hidden_env_unavailable) ... ok
+test_invalid_document_is_exception (__main__.HTTP.test_invalid_document_is_exception) ... ok
+test_invalid_invoice_identifier (__main__.HTTP.test_invalid_invoice_identifier) ... ok
+test_invalid_json_rejected (__main__.HTTP.test_invalid_json_rejected) ... ok
+test_invalid_login_generic (__main__.HTTP.test_invalid_login_generic) ... ok
+test_invalid_utf8_rejected (__main__.HTTP.test_invalid_utf8_rejected) ... ok
+test_json_body_size_limit (__main__.HTTP.test_json_body_size_limit) ... ok
+test_json_content_type_required (__main__.HTTP.test_json_content_type_required) ... ok
+test_language_config_public (__main__.HTTP.test_language_config_public) ... ok
+test_last_admin_protected (__main__.HTTP.test_last_admin_protected) ... ok
+test_locale_de (__main__.HTTP.test_locale_de) ... ok
+test_locale_en (__main__.HTTP.test_locale_en) ... ok
+test_locale_fa (__main__.HTTP.test_locale_fa) ... ok
+test_negative_page_rejected (__main__.HTTP.test_negative_page_rejected) ... ok
+test_official_report_unavailable_is_not_fabricated (__main__.HTTP.test_official_report_unavailable_is_not_fabricated) ... ok
+test_openapi_served (__main__.HTTP.test_openapi_served) ... ok
+test_original_attachment_exact (__main__.HTTP.test_original_attachment_exact) ... ok
+test_original_not_deletable (__main__.HTTP.test_original_not_deletable) ... ok
+test_oversized_page_rejected (__main__.HTTP.test_oversized_page_rejected) ... ok
+test_path_traversal_rejected (__main__.HTTP.test_path_traversal_rejected) ... ok
+test_policy_mode_is_not_mutable (__main__.HTTP.test_policy_mode_is_not_mutable) ... ok
+test_policy_version_conflict (__main__.HTTP.test_policy_version_conflict) ... ok
+test_random_session_denied (__main__.HTTP.test_random_session_denied) ... ok
+test_rejection_preserves_reason (__main__.HTTP.test_rejection_preserves_reason) ... ok
+test_replay_changed_upload_conflict (__main__.HTTP.test_replay_changed_upload_conflict) ... ok
+test_replay_same_upload (__main__.HTTP.test_replay_same_upload) ... ok
+test_retention_hold_recorded (__main__.HTTP.test_retention_hold_recorded) ... ok
+test_revalidation_does_not_change_hash (__main__.HTTP.test_revalidation_does_not_change_hash) ... ok
+test_role_approver_audit (__main__.HTTP.test_role_approver_audit) ... ok
+test_role_approver_csv (__main__.HTTP.test_role_approver_csv) ... ok
+test_role_approver_jobs (__main__.HTTP.test_role_approver_jobs) ... ok
+test_role_approver_keys (__main__.HTTP.test_role_approver_keys) ... ok
+test_role_approver_system (__main__.HTTP.test_role_approver_system) ... ok
+test_role_approver_users (__main__.HTTP.test_role_approver_users) ... ok
+test_role_auditor_audit (__main__.HTTP.test_role_auditor_audit) ... ok
+test_role_auditor_csv (__main__.HTTP.test_role_auditor_csv) ... ok
+test_role_auditor_jobs (__main__.HTTP.test_role_auditor_jobs) ... ok
+test_role_auditor_keys (__main__.HTTP.test_role_auditor_keys) ... ok
+test_role_auditor_system (__main__.HTTP.test_role_auditor_system) ... ok
+test_role_auditor_users (__main__.HTTP.test_role_auditor_users) ... ok
+test_role_finance_audit (__main__.HTTP.test_role_finance_audit) ... ok
+test_role_finance_csv (__main__.HTTP.test_role_finance_csv) ... ok
+test_role_finance_jobs (__main__.HTTP.test_role_finance_jobs) ... ok
+test_role_finance_keys (__main__.HTTP.test_role_finance_keys) ... ok
+test_role_finance_system (__main__.HTTP.test_role_finance_system) ... ok
+test_role_finance_users (__main__.HTTP.test_role_finance_users) ... ok
+test_role_intake_audit (__main__.HTTP.test_role_intake_audit) ... ok
+test_role_intake_csv (__main__.HTTP.test_role_intake_csv) ... ok
+test_role_intake_jobs (__main__.HTTP.test_role_intake_jobs) ... ok
+test_role_intake_keys (__main__.HTTP.test_role_intake_keys) ... ok
+test_role_intake_system (__main__.HTTP.test_role_intake_system) ... ok
+test_role_intake_users (__main__.HTTP.test_role_intake_users) ... ok
+test_role_reviewer_audit (__main__.HTTP.test_role_reviewer_audit) ... ok
+test_role_reviewer_csv (__main__.HTTP.test_role_reviewer_csv) ... ok
+test_role_reviewer_jobs (__main__.HTTP.test_role_reviewer_jobs) ... ok
+test_role_reviewer_keys (__main__.HTTP.test_role_reviewer_keys) ... ok
+test_role_reviewer_system (__main__.HTTP.test_role_reviewer_system) ... ok
+test_role_reviewer_users (__main__.HTTP.test_role_reviewer_users) ... ok
+test_security_header_cache_control (__main__.HTTP.test_security_header_cache_control) ... ok
+test_security_header_content_security_policy (__main__.HTTP.test_security_header_content_security_policy) ... ok
+test_security_header_permissions_policy (__main__.HTTP.test_security_header_permissions_policy) ... ok
+test_security_header_referrer_policy (__main__.HTTP.test_security_header_referrer_policy) ... ok
+test_security_header_x_content_type_options (__main__.HTTP.test_security_header_x_content_type_options) ... ok
+test_security_header_x_frame_options (__main__.HTTP.test_security_header_x_frame_options) ... ok
+test_security_header_x_request_id (__main__.HTTP.test_security_header_x_request_id) ... ok
+test_self_review_denied_on_server (__main__.HTTP.test_self_review_denied_on_server) ... ok
+test_stale_comment_version (__main__.HTTP.test_stale_comment_version) ... ok
+test_supplier_create_verify_and_edit (__main__.HTTP.test_supplier_create_verify_and_edit) ... ok
+test_supplier_verification_confirmation_required (__main__.HTTP.test_supplier_verification_confirmation_required) ... ok
+test_system_capabilities_honest (__main__.HTTP.test_system_capabilities_honest) ... ok
+test_unauthenticated_dashboard (__main__.HTTP.test_unauthenticated_dashboard) ... ok
+test_unknown_invoice_hidden (__main__.HTTP.test_unknown_invoice_hidden) ... ok
+test_unknown_method_rejected (__main__.HTTP.test_unknown_method_rejected) ... ok
+test_unknown_role_rejected (__main__.HTTP.test_unknown_role_rejected) ... ok
+test_upload_body_size_limit (__main__.HTTP.test_upload_body_size_limit) ... ok
+test_upload_content_type (__main__.HTTP.test_upload_content_type) ... ok
+test_upload_requires_idempotency (__main__.HTTP.test_upload_requires_idempotency) ... ok
+test_user_create_change_password_logout (__main__.HTTP.test_user_create_change_password_logout) ... ok
+
+----------------------------------------------------------------------
+Ran 100 tests in 5.661s
+
+OK
+
+> /opt/pyvenv/bin/python tests/operations_test.py
+test_changed_original_detected (__main__.Operations.test_changed_original_detected) ... ok
+test_changed_state_detected (__main__.Operations.test_changed_state_detected) ... ok
+test_jar_help (__main__.Operations.test_jar_help) ... ok
+test_live_maintenance_refused (__main__.Operations.test_live_maintenance_refused) ... ok
+test_missing_data_not_initialized (__main__.Operations.test_missing_data_not_initialized) ... ok
+test_missing_original_detected (__main__.Operations.test_missing_original_detected) ... ok
+test_persisted_bytes_are_not_plaintext (__main__.Operations.test_persisted_bytes_are_not_plaintext) ... ok
+test_public_demo_refused (__main__.Operations.test_public_demo_refused) ... ok
+test_public_strict_requires_security_ack (__main__.Operations.test_public_strict_requires_security_ack) ... ok
+test_restart_preserves_cases (__main__.Operations.test_restart_preserves_cases) ... ok
+test_snapshot_excludes_master_key (__main__.Operations.test_snapshot_excludes_master_key) ... ok
+test_snapshot_refuses_existing_target (__main__.Operations.test_snapshot_refuses_existing_target) ... ok
+test_snapshot_restores_with_separate_key (__main__.Operations.test_snapshot_restores_with_separate_key) ... ok
+test_verify_all_originals_and_audit (__main__.Operations.test_verify_all_originals_and_audit) ... ok
+test_wrong_external_key_detected (__main__.Operations.test_wrong_external_key_detected) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 3.839s
+
+OK
+
+> /opt/pyvenv/bin/python tests/installer_test.py
+test_ambiguous_assets_fail_closed (__main__.Installer.test_ambiguous_assets_fail_closed) ... ok
+test_config_release_selected (__main__.Installer.test_config_release_selected) ... ok
+test_digest_absent_fails_before_network (__main__.Installer.test_digest_absent_fails_before_network) ... ok
+test_duplicate_casefold_paths (__main__.Installer.test_duplicate_casefold_paths) ... ok
+test_existing_file_not_overwritten (__main__.Installer.test_existing_file_not_overwritten) ... ok
+test_explicit_direct_standalone_selected (__main__.Installer.test_explicit_direct_standalone_selected) ... ok
+test_no_config_assets_fail_closed (__main__.Installer.test_no_config_assets_fail_closed) ... ok
+test_normal_nested_file (__main__.Installer.test_normal_nested_file) ... ok
+test_reject_absolute (__main__.Installer.test_reject_absolute) ... ok
+test_reject_backslash (__main__.Installer.test_reject_backslash) ... ok
+test_reject_drive (__main__.Installer.test_reject_drive) ... ok
+test_reject_nested_parent (__main__.Installer.test_reject_nested_parent) ... ok
+test_reject_parent (__main__.Installer.test_reject_parent) ... ok
+test_reject_reserved_com (__main__.Installer.test_reject_reserved_com) ... ok
+test_reject_reserved_con (__main__.Installer.test_reject_reserved_con) ... ok
+test_reject_reserved_nul (__main__.Installer.test_reject_reserved_nul) ... ok
+test_reject_trailing_dot (__main__.Installer.test_reject_trailing_dot) ... ok
+test_reject_trailing_space (__main__.Installer.test_reject_trailing_space) ... ok
+test_sha_is_exact_bytes (__main__.Installer.test_sha_is_exact_bytes) ... ok
+test_source_archive_not_validator (__main__.Installer.test_source_archive_not_validator) ... ok
+test_symlink_rejected (__main__.Installer.test_symlink_rejected) ... ok
+test_unknown_repository_download_rejected_before_network (__main__.Installer.test_unknown_repository_download_rejected_before_network) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.006s
+
+OK
+
+> /opt/pyvenv/bin/python tests/repository_test.py
+test_all_language_guides_present_and_substantive (__main__.Repository.test_all_language_guides_present_and_substantive) ... ok
+test_api_schema_version_and_unique_operations (__main__.Repository.test_api_schema_version_and_unique_operations) ... ok
+test_browser_ci_requires_native_transport (__main__.Repository.test_browser_ci_requires_native_transport) ... ok
+test_ci_matrix_retains_failures_and_limits_permissions (__main__.Repository.test_ci_matrix_retains_failures_and_limits_permissions) ... ok
+test_cmd_entrypoints_exist_without_powershell (__main__.Repository.test_cmd_entrypoints_exist_without_powershell) ... ok
+test_docker_runtime_is_nonroot (__main__.Repository.test_docker_runtime_is_nonroot) ... ok
+test_documentation_utf8_without_replacement_characters (__main__.Repository.test_documentation_utf8_without_replacement_characters) ... ok
+test_jar_has_executable_manifest (__main__.Repository.test_jar_has_executable_manifest) ... ok
+test_jar_has_no_keys_or_vendor_binaries (__main__.Repository.test_jar_has_no_keys_or_vendor_binaries) ... ok
+test_jar_includes_all_translated_guides (__main__.Repository.test_jar_includes_all_translated_guides) ... ok
+test_jar_language_assets_match_source (__main__.Repository.test_jar_language_assets_match_source) ... ok
+test_jar_static_resources_are_current (__main__.Repository.test_jar_static_resources_are_current) ... ok
+test_json_examples_parse (__main__.Repository.test_json_examples_parse) ... ok
+test_literal_ui_translation_keys_exist (__main__.Repository.test_literal_ui_translation_keys_exist) ... ok
+test_local_api_references_resolve (__main__.Repository.test_local_api_references_resolve) ... ok
+test_local_markdown_links_resolve (__main__.Repository.test_local_markdown_links_resolve) ... ok
+test_no_private_key_material_in_public_examples (__main__.Repository.test_no_private_key_material_in_public_examples) ... ok
+test_official_workflow_reports_have_distinct_paths (__main__.Repository.test_official_workflow_reports_have_distinct_paths) ... ok
+test_research_registry_has_primary_https_references (__main__.Repository.test_research_registry_has_primary_https_references) ... ok
+test_runtime_sensitive_paths_are_ignored (__main__.Repository.test_runtime_sensitive_paths_are_ignored) ... ok
+test_source_modules_have_production_classes (__main__.Repository.test_source_modules_have_production_classes) ... ok
+test_translation_key_parity (__main__.Repository.test_translation_key_parity) ... ok
+test_translations_are_nonempty_strings (__main__.Repository.test_translations_are_nonempty_strings) ... ok
+test_vendor_pins_are_explicit (__main__.Repository.test_vendor_pins_are_explicit) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.017s
+
+OK
+
+Offline suites passed. This does NOT imply real KoSIT, Windows, Docker, or native-browser acceptance.

@@ -1,0 +1,22 @@
+FAIL server-response :: Small 413 response is flushed before request-body cleanup :: java.lang.AssertionError: Expected true
+java.lang.AssertionError: Expected true
+	at io.ahad.rechnungflow.testing.TestKit.yes(TestKit.java:35)
+	at io.ahad.rechnungflow.testing.ServerResponseTest.lambda$main$0(ServerResponseTest.java:32)
+	at io.ahad.rechnungflow.testing.TestKit.test(TestKit.java:20)
+	at io.ahad.rechnungflow.testing.ServerResponseTest.main(ServerResponseTest.java:25)
+FAIL server-response :: Binary response is flushed without changing its bytes :: java.lang.AssertionError: Expected true
+java.lang.AssertionError: Expected true
+	at io.ahad.rechnungflow.testing.TestKit.yes(TestKit.java:35)
+	at io.ahad.rechnungflow.testing.ServerResponseTest.lambda$main$1(ServerResponseTest.java:40)
+	at io.ahad.rechnungflow.testing.TestKit.test(TestKit.java:20)
+	at io.ahad.rechnungflow.testing.ServerResponseTest.main(ServerResponseTest.java:35)
+FAIL server-response :: Response flush failures are not silently swallowed :: java.lang.AssertionError: Expected true
+java.lang.AssertionError: Expected true
+	at io.ahad.rechnungflow.testing.TestKit.yes(TestKit.java:35)
+	at io.ahad.rechnungflow.testing.ServerResponseTest.lambda$main$2(ServerResponseTest.java:50)
+	at io.ahad.rechnungflow.testing.TestKit.test(TestKit.java:20)
+	at io.ahad.rechnungflow.testing.ServerResponseTest.main(ServerResponseTest.java:42)
+server-response: 3 tests, 3 failures
+Exception in thread "main" java.lang.AssertionError: Test suite failed
+	at io.ahad.rechnungflow.testing.TestKit.finish(TestKit.java:55)
+	at io.ahad.rechnungflow.testing.ServerResponseTest.main(ServerResponseTest.java:53)

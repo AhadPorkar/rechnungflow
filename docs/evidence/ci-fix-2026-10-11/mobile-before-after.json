@@ -1,0 +1,122 @@
+[
+  {
+    "language": "en",
+    "route": "dashboard",
+    "before": {
+      "mode": "CSS1Compat",
+      "viewport": 390,
+      "document": 519,
+      "body": 390,
+      "table": 550.6875,
+      "wrapper": 356
+    },
+    "after": {
+      "mode": "CSS1Compat",
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "table": 550.6875,
+      "wrapper": 356
+    }
+  },
+  {
+    "language": "en",
+    "route": "invoices",
+    "before": {
+      "mode": "CSS1Compat",
+      "viewport": 390,
+      "document": 765,
+      "body": 390,
+      "table": 796.59375,
+      "wrapper": 356
+    },
+    "after": {
+      "mode": "CSS1Compat",
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "table": 796.59375,
+      "wrapper": 356
+    }
+  },
+  {
+    "language": "de",
+    "route": "dashboard",
+    "before": {
+      "mode": "CSS1Compat",
+      "viewport": 390,
+      "document": 561,
+      "body": 390,
+      "table": 592.703125,
+      "wrapper": 356
+    },
+    "after": {
+      "mode": "CSS1Compat",
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "table": 592.703125,
+      "wrapper": 356
+    }
+  },
+  {
+    "language": "de",
+    "route": "invoices",
+    "before": {
+      "mode": "CSS1Compat",
+      "viewport": 390,
+      "document": 876,
+      "body": 390,
+      "table": 907.703125,
+      "wrapper": 356
+    },
+    "after": {
+      "mode": "CSS1Compat",
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "table": 907.703125,
+      "wrapper": 356
+    }
+  },
+  {
+    "language": "fa",
+    "route": "dashboard",
+    "before": {
+      "mode": "CSS1Compat",
+      "viewport": 390,
+      "document": 489,
+      "body": 390,
+      "table": 520.75,
+      "wrapper": 356
+    },
+    "after": {
+      "mode": "CSS1Compat",
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "table": 520.75,
+      "wrapper": 356
+    }
+  },
+  {
+    "language": "fa",
+    "route": "invoices",
+    "before": {
+      "mode": "CSS1Compat",
+      "viewport": 390,
+      "document": 696,
+      "body": 390,
+      "table": 728.40625,
+      "wrapper": 356
+    },
+    "after": {
+      "mode": "CSS1Compat",
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "table": 728.40625,
+      "wrapper": 356
+    }
+  }
+]

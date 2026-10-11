@@ -1,0 +1,9 @@
+[
+  "invoice-server/src/main/java/io/ahad/rechnungflow/server/ApiServer.java",
+  "invoice-server/src/main/resources/public/styles.css",
+  "scripts/setup_kosit.py",
+  "scripts/test.py",
+  "tests/browser/ui_test.py",
+  "tests/installer_test.py",
+  "tests/java/io/ahad/rechnungflow/testing/ServerResponseTest.java"
+]

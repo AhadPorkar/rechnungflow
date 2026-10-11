@@ -1,0 +1,221 @@
+--- a/invoice-server/src/main/java/io/ahad/rechnungflow/server/ApiServer.java
++++ b/invoice-server/src/main/java/io/ahad/rechnungflow/server/ApiServer.java
+@@ -101,7 +101,13 @@
+     private int number(Map<String,String>q,String key,int fallback){try{return q.containsKey(key)?Integer.parseInt(q.get(key)):fallback;}catch(NumberFormatException e){throw Problem.of(400,"INVALID_PAGINATION");}}
+     private void requireMethod(String actual,String expected){Problem.require(actual.equals(expected),405,"METHOD_NOT_ALLOWED");}
+     private void send(HttpExchange e,int status,Object body)throws IOException{raw(e,status,"application/json; charset=utf-8",Json.stringify(body).getBytes(StandardCharsets.UTF_8));}
+-    private void raw(HttpExchange e,int status,String type,byte[] b)throws IOException{e.getResponseHeaders().set("Content-Type",type);e.sendResponseHeaders(status,b.length);e.getResponseBody().write(b);}
++    private void raw(HttpExchange e,int status,String type,byte[] b)throws IOException{
++        e.getResponseHeaders().set("Content-Type",type);e.sendResponseHeaders(status,b.length);
++        OutputStream output=e.getResponseBody();output.write(b);
++        // Deliver buffered responses before handle() closes the exchange. Closing
++        // may first drain unread input, including a rejected, incomplete upload.
++        output.flush();
++    }
+     private void download(HttpExchange e,String name,String type,byte[] b)throws IOException{e.getResponseHeaders().set("Content-Disposition","attachment; filename=\""+name+"\"");raw(e,200,type,b);}
+     private void staticFile(HttpExchange e,String path)throws IOException{
+         if(path.equals("/"))path="/index.html";
+--- a/invoice-server/src/main/resources/public/styles.css
++++ b/invoice-server/src/main/resources/public/styles.css
+@@ -3,7 +3,7 @@
+ /* Navigation and workspace shell. */
+ .sidebar{position:fixed;z-index:30;inset-block:0;inset-inline-start:0;width:242px;background:var(--navy);color:#e7f1f3;display:flex;flex-direction:column;padding:27px 17px 18px}.sidebar .logo{padding-inline:9px}.sidebar .logo img{width:32px;height:32px}.sidebar .logo{font-size:20px}.workspace-chip{display:flex;align-items:center;gap:10px;margin:27px 5px 23px;padding:13px 10px;border:1px solid #ffffff15;background:#ffffff05;border-radius:9px;font-size:12px;min-width:0}.workspace-chip>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.workspace-chip .square{width:29px;height:29px;border-radius:7px;background:#b4e2d815;color:#acd9cf;display:grid;place-items:center}.nav-label{font-size:10px;letter-spacing:1.8px;color:var(--nav-muted);font-weight:650;padding:13px 12px 9px}.nav-list{display:grid;gap:4px}.nav-link{display:flex;align-items:center;gap:11px;width:100%;text-align:start;border-radius:8px;min-height:42px;padding:10px 12px;font-size:13px;color:#b8cdd2;transition:background .15s}.nav-link .icon{width:18px;height:18px}.nav-link.active{background:#1b4f53;color:#e7fbf1}.nav-link:hover{background:#ffffff0a;text-decoration:none}.nav-link.active:hover{background:#1b4f53}.sidebar-bottom{margin-top:auto;border-top:1px solid #ffffff12;padding:18px 6px 0;display:flex;align-items:center;gap:10px}.user-avatar{width:35px;height:35px;background:#30535e;border-radius:50%;display:grid;place-items:center;color:#d5eee5;font-size:12px;font-weight:700;flex-shrink:0}.sidebar-person{flex:1;min-width:0}.sidebar-person strong{display:block;font-size:12px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.sidebar-person small{color:#9bb6bf;font-size:10px;display:block;margin-top:3px}.sidebar-bottom .icon-only{color:#a0bbc1}.main{min-width:0;margin-inline-start:242px;min-height:100vh}.topbar{height:76px;border-bottom:1px solid var(--line);background:#ffffffdf;display:flex;align-items:center;padding:0 34px;gap:20px}.breadcrumb{display:flex;gap:10px;font-size:12px;align-items:center;color:var(--muted)}.breadcrumb b{font-weight:600;color:var(--ink)}.topbar .spacer{min-width:12px}.topbar .avatar{width:31px;height:31px;border-radius:50%;background:var(--teal-light);color:var(--teal);display:grid;place-items:center;font-size:11px;font-weight:700}.mobile-menu{display:none}.content{padding:29px 34px 40px;max-width:1600px;margin:auto}.mode-banner{margin-bottom:25px;background:#fff7e5;color:#8a641c;border:1px solid #efdfbd;display:flex;align-items:flex-start;gap:9px;border-radius:8px;padding:10px 13px;font-size:11px;line-height:1.65}.mode-banner .icon{width:16px;height:16px;margin-top:1px;flex-shrink:0}.mode-banner.strict{background:#eaf3f6;color:#476979;border-color:#d5e3e9}.page-heading{display:flex;align-items:center;justify-content:space-between;gap:25px;margin-bottom:24px}.page-heading p{color:var(--muted);margin:0;font-size:13px;max-width:730px}.eyebrow{color:var(--teal);font-size:10px;font-weight:700;letter-spacing:1.7px;margin-bottom:10px}.page-heading h1{max-width:900px}.pill{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;border-radius:6px;padding:5px 8px;font-size:10px;font-weight:650;background:#edf2f4;color:#54727d;max-width:100%;line-height:1.4}.pill.dot:before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}.pill.green{background:#e5f3ec;color:#257c5a}.pill.blue{background:#e9f0fb;color:#476ca1}.pill.amber{background:#fff3da;color:#9a6a1e}.pill.red{background:#fbeaec;color:#af4351}.pill.purple{background:#f0eafa;color:#825baa}.pill.gray{background:#eff2f4;color:#64747c}.card{background:white;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);min-width:0}.card.pad{padding:22px}.card-header{display:flex;align-items:center;justify-content:space-between;padding:21px 22px 17px;gap:12px}.card-header h2{font-size:16px;margin:0}.card-header p{font-size:12px;color:var(--muted);margin:4px 0 0}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:23px}.stat{padding:20px 22px;position:relative;overflow:hidden}.stat .stat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;font-size:12px;color:var(--muted)}.stat .stat-icon{display:grid;place-items:center;width:31px;height:31px;border-radius:8px;background:#eef5f4;color:var(--teal)}.stat.amber .stat-icon{background:#fff5e1;color:#af7c24}.stat .value{font-size:34px;line-height:1.2;font-weight:650;letter-spacing:-1.3px}.stat .caption{font-size:10px;color:var(--muted);margin-top:7px}.overview-grid{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(260px,1fr);gap:22px;margin-bottom:23px}.lifecycle{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding-top:16px}.lifecycle-step{border-top:3px solid #b8d9d4;padding-top:15px}.lifecycle-step:nth-child(2){border-color:#a3c3ec}.lifecycle-step:nth-child(3){border-color:#cec0e8}.lifecycle-step:nth-child(4){border-color:#82bda1}.lifecycle-step strong{display:block;font-size:24px;font-weight:600;margin-bottom:6px}.lifecycle-step span{font-size:11px;color:var(--muted)}.priority-list{padding:0 20px 10px}.priority{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid #edf1f2;width:100%;text-align:start}.priority:last-child{border-bottom:0}.priority-icon{background:#eef5f3;border-radius:9px;flex-shrink:0;width:32px;height:32px;display:grid;place-items:center;color:var(--teal)}.priority:nth-child(2) .priority-icon{background:#fff5e2;color:#a17625}.priority h3{font-size:12px;margin:0 0 5px}.priority p{font-size:11px;line-height:1.5;color:var(--muted);margin:0}.priority .count{font-size:17px;margin-inline-start:auto;color:var(--teal);font-weight:650}.amount-band{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-bottom:22px}.amount-band .amount{font-size:24px;font-weight:650;letter-spacing:-.8px}.amount-band .caption{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}.vertical-line{width:1px;align-self:stretch;background:var(--line)}.control-list{display:grid;gap:11px;margin-top:18px}.control-item{display:flex;gap:9px;font-size:12px;align-items:center}.control-item .icon{color:var(--teal);width:16px;height:16px}.control-note{padding-top:16px;margin:16px 0 0;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+ /* Tables and filters. */
+-.table-wrap{width:100%;overflow-x:auto}.table{border-collapse:collapse;width:100%;font-size:12px;text-align:start}.table th{padding:12px 18px;background:#f9fbfb;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:start;color:#7a8c93;font-size:10px;font-weight:650;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}.table td{padding:15px 18px;border-bottom:1px solid #ecf1f2;vertical-align:middle}.table tr:last-child td{border-bottom:0}.table tbody tr:hover{background:#fafdfc}.table .right{text-align:end;white-space:nowrap}.table .title-link{font-weight:650;color:var(--ink);font-size:12px}.table .subline{display:block;font-size:10px;margin-top:5px;color:var(--muted)}.supplier-cell{display:flex;align-items:center;gap:10px}.supplier-initial{flex-shrink:0;width:30px;height:30px;border-radius:8px;font-size:10px;display:grid;place-items:center;font-weight:700;background:#e9f3f2;color:#4a8078}.tone1{background:#edf0f9;color:#6878a5}.tone2{background:#f8efdf;color:#a47e47}.tone3{background:#f1eafa;color:#8866a5}.table-footer{padding:14px 19px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);color:var(--muted);font-size:11px}.filters{display:flex;gap:12px;margin-bottom:18px;align-items:center;flex-wrap:wrap}.search-field{position:relative;min-width:230px;flex:1;max-width:450px}.search-field .icon{position:absolute;inset-inline-start:12px;top:11px;width:17px;height:17px;color:#8aa0a8}.search-field input{padding-inline-start:38px!important}.filters select{max-width:240px}.empty{padding:46px 24px;text-align:center;color:var(--muted)}.empty .empty-icon{width:54px;height:54px;display:grid;place-items:center;background:#eff6f3;border-radius:15px;margin:0 auto 16px;color:#79a499}.empty h3{font-size:15px;color:var(--ink);margin-bottom:7px}.empty p{font-size:12px;margin-bottom:18px}.form-field{display:grid;gap:7px;margin-bottom:17px}.form-field>label,.form-label{font-weight:600;font-size:12px}.form-field .hint{font-size:11px;line-height:1.6;color:var(--muted)}input,select,textarea{border:1px solid #cfdbdf;border-radius:8px;min-height:41px;padding:10px 12px;background:#fff;color:var(--ink);max-width:100%;width:100%}textarea{min-height:92px;resize:vertical;line-height:1.6}input[type=checkbox]{width:16px;height:16px;min-height:16px;accent-color:var(--teal);flex-shrink:0}input[readonly]{background:#f6f8f9;color:var(--muted)}.checkbox{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.6}.checkbox input{margin-top:2px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field-grid .form-field{margin-bottom:0}.form-error{font-size:12px;line-height:1.6;background:#fceef0;border:1px solid #f2d2d7;color:#9c3344;padding:11px 13px;border-radius:7px;margin:12px 0}.form-error:empty{display:none}.notice{padding:13px 15px;background:#edf5f6;border:1px solid #d9e9e9;border-radius:8px;font-size:12px;color:#4d6b72;line-height:1.7;margin-bottom:18px}.notice.warn{background:#fff7e8;border-color:#efdfba;color:#8d671f}.notice.error{background:#fcf0f0;border-color:#f1dadb;color:#a24e54}.notice.success{background:#eaf6ef;border-color:#d1e8da;color:#2f7b56}.notice p{margin:0}.notice .icon{width:16px;height:16px;margin-inline-end:6px}.danger-link{color:var(--red)}.section-gap{margin-top:23px}.tabs{display:flex;gap:25px;border-bottom:1px solid var(--line);margin:21px 0;overflow:auto}.tab{padding:12px 0;font-size:12px;border-bottom:2px solid transparent;color:var(--muted);white-space:nowrap}.tab.active{color:var(--teal);font-weight:650;border-color:var(--teal)}
++.table-wrap{position:relative;width:100%;overflow-x:auto}.table{border-collapse:collapse;width:100%;font-size:12px;text-align:start}.table th{padding:12px 18px;background:#f9fbfb;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:start;color:#7a8c93;font-size:10px;font-weight:650;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}.table td{padding:15px 18px;border-bottom:1px solid #ecf1f2;vertical-align:middle}.table tr:last-child td{border-bottom:0}.table tbody tr:hover{background:#fafdfc}.table .right{text-align:end;white-space:nowrap}.table .title-link{font-weight:650;color:var(--ink);font-size:12px}.table .subline{display:block;font-size:10px;margin-top:5px;color:var(--muted)}.supplier-cell{display:flex;align-items:center;gap:10px}.supplier-initial{flex-shrink:0;width:30px;height:30px;border-radius:8px;font-size:10px;display:grid;place-items:center;font-weight:700;background:#e9f3f2;color:#4a8078}.tone1{background:#edf0f9;color:#6878a5}.tone2{background:#f8efdf;color:#a47e47}.tone3{background:#f1eafa;color:#8866a5}.table-footer{padding:14px 19px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);color:var(--muted);font-size:11px}.filters{display:flex;gap:12px;margin-bottom:18px;align-items:center;flex-wrap:wrap}.search-field{position:relative;min-width:230px;flex:1;max-width:450px}.search-field .icon{position:absolute;inset-inline-start:12px;top:11px;width:17px;height:17px;color:#8aa0a8}.search-field input{padding-inline-start:38px!important}.filters select{max-width:240px}.empty{padding:46px 24px;text-align:center;color:var(--muted)}.empty .empty-icon{width:54px;height:54px;display:grid;place-items:center;background:#eff6f3;border-radius:15px;margin:0 auto 16px;color:#79a499}.empty h3{font-size:15px;color:var(--ink);margin-bottom:7px}.empty p{font-size:12px;margin-bottom:18px}.form-field{display:grid;gap:7px;margin-bottom:17px}.form-field>label,.form-label{font-weight:600;font-size:12px}.form-field .hint{font-size:11px;line-height:1.6;color:var(--muted)}input,select,textarea{border:1px solid #cfdbdf;border-radius:8px;min-height:41px;padding:10px 12px;background:#fff;color:var(--ink);max-width:100%;width:100%}textarea{min-height:92px;resize:vertical;line-height:1.6}input[type=checkbox]{width:16px;height:16px;min-height:16px;accent-color:var(--teal);flex-shrink:0}input[readonly]{background:#f6f8f9;color:var(--muted)}.checkbox{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.6}.checkbox input{margin-top:2px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field-grid .form-field{margin-bottom:0}.form-error{font-size:12px;line-height:1.6;background:#fceef0;border:1px solid #f2d2d7;color:#9c3344;padding:11px 13px;border-radius:7px;margin:12px 0}.form-error:empty{display:none}.notice{padding:13px 15px;background:#edf5f6;border:1px solid #d9e9e9;border-radius:8px;font-size:12px;color:#4d6b72;line-height:1.7;margin-bottom:18px}.notice.warn{background:#fff7e8;border-color:#efdfba;color:#8d671f}.notice.error{background:#fcf0f0;border-color:#f1dadb;color:#a24e54}.notice.success{background:#eaf6ef;border-color:#d1e8da;color:#2f7b56}.notice p{margin:0}.notice .icon{width:16px;height:16px;margin-inline-end:6px}.danger-link{color:var(--red)}.section-gap{margin-top:23px}.tabs{display:flex;gap:25px;border-bottom:1px solid var(--line);margin:21px 0;overflow:auto}.tab{padding:12px 0;font-size:12px;border-bottom:2px solid transparent;color:var(--muted);white-space:nowrap}.tab.active{color:var(--teal);font-weight:650;border-color:var(--teal)}
+ /* Invoice case view. */
+ .detail-grid{display:grid;grid-template-columns:minmax(0,2.1fr) minmax(270px,1fr);gap:22px}.invoice-hero{padding:23px;display:flex;justify-content:space-between;gap:20px}.invoice-hero h2{font-size:25px;margin:9px 0 5px;letter-spacing:-.7px}.invoice-hero .amount-big{font-size:29px;font-weight:650;letter-spacing:-.8px;margin:10px 0 4px}.invoice-hero .amount-column{text-align:end}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}.data-block .label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:9px}.data-block .name{font-weight:650;font-size:14px;margin-bottom:9px}.data-block p{margin:4px 0;font-size:12px;line-height:1.65}.detail-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;padding-top:22px;margin-top:22px;border-top:1px solid var(--line)}.detail-meta .label{font-size:10px;margin-bottom:5px;color:var(--muted)}.detail-meta .value{font-size:12px;overflow-wrap:anywhere}.totals{margin-top:18px;margin-inline-start:auto;max-width:330px}.total-line{display:flex;justify-content:space-between;gap:15px;padding:7px 0;font-size:12px}.total-line.grand{border-top:1px solid var(--line);padding-top:14px;margin-top:7px;font-weight:700;font-size:15px}.workflow-steps{margin-top:21px;margin-bottom:20px;display:grid;gap:0}.workflow-step{display:flex;gap:12px;position:relative;padding-bottom:22px}.workflow-step:last-child{padding-bottom:0}.workflow-step:not(:last-child):before{content:"";position:absolute;top:23px;inset-inline-start:11px;bottom:2px;width:1px;background:#dce8e6}.step-icon{display:grid;place-items:center;flex-shrink:0;width:24px;height:24px;border:1px solid #d5e1e5;border-radius:50%;font-size:10px;background:#fff;color:#92a2aa;z-index:1}.workflow-step.complete .step-icon{background:#e1f1e9;border-color:#d0e8dc;color:var(--teal)}.workflow-step.current .step-icon{background:var(--teal);border-color:var(--teal);color:#fff}.workflow-step strong{font-size:12px;display:block;padding-top:4px}.workflow-step small{font-size:10px;display:block;margin-top:5px}.workflow-actions{border-top:1px solid var(--line);padding-top:18px;display:grid;gap:9px}.workflow-actions .hint{font-size:11px;color:var(--muted);margin:4px 0 0;line-height:1.7}.blocker{display:flex;gap:8px;font-size:11px;line-height:1.6;color:#966226;background:#fff8eb;padding:11px;border-radius:7px;margin-top:9px}.blocker .icon{width:14px;height:14px;flex-shrink:0;margin-top:2px}.issue{padding:13px 0;display:flex;gap:13px;border-bottom:1px solid var(--line)}.issue .issue-text{flex:1}.issue p{margin:0 0 5px;font-size:12px}.issue small{font-size:10px}.timeline{display:grid;gap:0;padding:8px 0}.event{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--line)}.event:last-child{border-bottom:0}.event-dot{width:8px;height:8px;border:2px solid #73a89c;border-radius:50%;margin-top:5px;flex-shrink:0}.event h3{font-size:12px;margin-bottom:5px}.event p{font-size:11px;margin:0;color:var(--muted)}.comment{background:#f6f9f9;border:1px solid #e4ecee;border-radius:9px;padding:15px;margin-bottom:13px}.comment .comment-head{display:flex;justify-content:space-between;gap:14px;font-size:11px;color:var(--muted);margin-bottom:9px}.comment p{white-space:pre-wrap;font-size:12px;margin:0}.key-secret{padding:17px;background:#143740;color:#d5f6e9;border-radius:9px;overflow-wrap:anywhere;white-space:pre-wrap;direction:ltr;text-align:left}.roles{display:flex;gap:6px;flex-wrap:wrap}.role-option{display:flex;gap:8px;align-items:center;font-size:12px;border:1px solid var(--line);border-radius:8px;padding:10px}.role-options{display:grid;grid-template-columns:1fr 1fr;gap:9px}fieldset{border:0;padding:0;margin:0 0 17px}legend{font-size:12px;font-weight:600;margin-bottom:10px}.settings-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:24px}.metric{padding:15px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;font-size:12px}.metric:last-child{border-bottom:0}.code{padding:14px;background:#f1f5f6;border-radius:8px;overflow-x:auto;font-size:12px;direction:ltr;text-align:left;line-height:1.8}.docs-layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:22px}.docs-menu{display:grid;gap:5px;align-self:start;padding:12px}.docs-menu button{text-align:start;border-radius:7px;font-size:12px;padding:11px 12px}.docs-menu button.active{background:var(--teal-light);color:var(--teal);font-weight:650}.doc-markdown{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.95 "Segoe UI",Tahoma,Arial,sans-serif;margin:0}.doc-markdown code{font-size:12px}.loading{padding:70px 0;text-align:center;color:var(--muted);font-size:13px}.spinner{width:25px;height:25px;border:2px solid #d5e7e2;border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;margin-bottom:15px}@keyframes spin{to{transform:rotate(360deg)}}
+ /* Accessible native dialogs, notifications, and sign-in. */
+--- a/scripts/setup_kosit.py
++++ b/scripts/setup_kosit.py
+@@ -22,7 +22,9 @@
+         if len(entries)>20000 or sum(x.file_size for x in entries)>600*1024*1024: raise ValueError('Archive limits exceeded')
+         seen=set()
+         for info in entries:
+-            name=info.filename
++            # Validate the archive's original name before ZipInfo can normalize
++            # Windows separators or truncate a name at an embedded NUL.
++            name=info.orig_filename
+             p=PurePosixPath(name)
+             if not name or '\\' in name or p.is_absolute() or '..' in p.parts or ':' in name or '\x00' in name: raise ValueError('Unsafe archive path')
+             if stat.S_ISLNK(info.external_attr>>16): raise ValueError('Symbolic link in archive')
+--- a/scripts/test.py
++++ b/scripts/test.py
+@@ -14,7 +14,7 @@
+     sources=ROOT/'build/test-sources.args';sources.write_text('\n'.join('"'+p.relative_to(ROOT).as_posix()+'"' for p in sorted((ROOT/'tests/java').rglob('*.java'))),encoding='utf-8')
+     run(['javac','--release','21','-encoding','UTF-8','-cp',ROOT/'build/classes','-d',out,'@'+str(sources)])
+     cp=os.pathsep.join(map(str,[ROOT/'build/classes',out]))
+-    for suite in ['CoreTest','IngestTest','WorkflowTest','AuthTest','OutboxTest','ValidationTest']:
++    for suite in ['CoreTest','IngestTest','WorkflowTest','AuthTest','OutboxTest','ValidationTest','ServerResponseTest']:
+         run(['java','-cp',cp,'io.ahad.rechnungflow.testing.'+suite])
+     for script in ['http_test.py','operations_test.py','installer_test.py','repository_test.py']:
+         if (ROOT/'tests'/script).exists():run([sys.executable,'tests/'+script])
+--- a/tests/browser/ui_test.py
++++ b/tests/browser/ui_test.py
+@@ -40,7 +40,7 @@
+     body=body if isinstance(body,bytes) else json.dumps(body,ensure_ascii=False).encode()
+     return {'status':status,'body':base64.b64encode(body).decode(),'headers':headers}
+    self.page.expose_function('rfBridge',bridge)
+-   self.page.set_content('<html><head><title>RechnungFlow</title></head><body><div id="app"></div><div id="toasts" aria-live="polite"></div></body></html>')
++   self.page.set_content('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RechnungFlow</title></head><body><div id="app"></div><div id="toasts" aria-live="polite"></div></body></html>')
+    self.page.add_style_tag(content=(ASSETS/'styles.css').read_text(encoding='utf-8'))
+    self.page.evaluate('''([language,route])=>{const memory=new Map([['rf.language',language]]);Object.defineProperty(window,'localStorage',{value:{getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,String(v)),removeItem:k=>memory.delete(k)}});location.hash=route;
+    window.fetch=async(url,o={})=>{let body=null;if(o.body!==undefined){let b=o.body;if(b instanceof Blob)b=await b.arrayBuffer();let bytes=typeof b==='string'?new TextEncoder().encode(b):new Uint8Array(b);let text='';for(let i=0;i<bytes.length;i+=8192)text+=String.fromCharCode(...bytes.subarray(i,i+8192));body=btoa(text);}let r=await rfBridge({url:String(url),method:o.method||'GET',headers:Object.fromEntries(new Headers(o.headers||{})),body});return new Response(Uint8Array.from(atob(r.body),x=>x.charCodeAt(0)),{status:r.status,headers:r.headers});};
+@@ -48,6 +48,8 @@
+    logo='data:image/svg+xml;base64,'+base64.b64encode((ASSETS/'icon.svg').read_bytes()).decode()
+    self.page.evaluate('''logo=>{new MutationObserver(()=>document.querySelectorAll('img[src="/icon.svg"]').forEach(x=>x.src=logo)).observe(document.body,{childList:true,subtree:true});}''',logo)
+    self.page.add_script_tag(content='(async()=>{'+(ASSETS/'app.js').read_text(encoding='utf-8')+'})().catch(e=>{throw e;});')
++  # The harness must use the same standards layout mode as the real index.html.
++  self.assertEqual('CSS1Compat',self.page.evaluate('()=>document.compatMode'))
+   if role:self.ready()
+   else:expect(self.page.locator('#login-form')).to_be_visible()
+   self.loaded=True
+--- a/tests/installer_test.py
++++ b/tests/installer_test.py
+@@ -1,5 +1,6 @@
+ """Offline installer adversarial cases; no download or official acceptance is simulated."""
+ from pathlib import Path
++from unittest.mock import patch
+ import sys,tempfile,zipfile,stat,hashlib,json,unittest
+ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
+ import setup_kosit as installer
+@@ -9,10 +10,25 @@
+  def tearDown(self):self.temp.cleanup()
+  def archive(self,name,body='synthetic'):
+   p=self.root/'input.zip'
+-  with zipfile.ZipFile(p,'w') as z:z.writestr(name,body)
++  # Keep hostile fixture names verbatim on every OS, including Windows.
++  info=zipfile.ZipInfo();info.filename=name;info.orig_filename=name
++  with zipfile.ZipFile(p,'w') as z:z.writestr(info,body)
+   return p
+  def bad(self,name):
+   with self.assertRaises((ValueError,OSError)):installer.safe_extract(self.archive(name),self.root/'output')
++ def test_fixture_preserves_raw_names(self):
++  for name in ('a\\escape','safe.xml\x00suffix'):
++   with self.subTest(name=name):
++    archive=self.archive(name)
++    with zipfile.ZipFile(archive) as z:self.assertEqual(name,z.infolist()[0].orig_filename)
++    self.assertEqual(2,archive.read_bytes().count(name.encode('ascii')))
++ def test_reject_backslash_after_windows_normalization(self):
++  archive=self.archive('a\\escape')
++  # Exercise ZipInfo's Windows normalization even when this suite runs on Linux.
++  with patch.object(zipfile.os,'sep','\\'):
++   with zipfile.ZipFile(archive) as z:
++    info=z.infolist()[0];self.assertEqual('a/escape',info.filename);self.assertEqual('a\\escape',info.orig_filename)
++   with self.assertRaises(ValueError):installer.safe_extract(archive,self.root/'out')
+  def test_normal_nested_file(self):
+   installer.safe_extract(self.archive('config/scenarios.xml'),self.root/'out');self.assertEqual('synthetic',(self.root/'out/config/scenarios.xml').read_text())
+  def test_duplicate_casefold_paths(self):
+@@ -43,7 +59,7 @@
+   with self.assertRaises(ValueError):installer.download({'browser_download_url':'https://github.com/itplr-kosit/validator/releases/download/v1.6.3/file.jar'},'validator',self.root/'x',False)
+  def test_sha_is_exact_bytes(self):
+   p=self.root/'bytes';p.write_bytes(b'\x00\xffexample');self.assertEqual(hashlib.sha256(p.read_bytes()).hexdigest(),installer.sha(p))
+-for name,value in {'parent':'../escape','nested_parent':'a/../../escape','absolute':'/tmp/escape','backslash':'a\\escape','drive':'C:/escape','reserved_con':'CON.txt','reserved_nul':'NUL','reserved_com':'sub/COM1.xml','trailing_space':'file.xml ','trailing_dot':'name.'}.items():
++for name,value in {'parent':'../escape','nested_parent':'a/../../escape','absolute':'/tmp/escape','backslash':'a\\escape','drive':'C:/escape','reserved_con':'CON.txt','reserved_nul':'NUL','reserved_com':'sub/COM1.xml','trailing_space':'file.xml ','trailing_dot':'name.','null_byte':'safe.xml\x00suffix'}.items():
+  def make(v):
+   def test(self):self.bad(v)
+   return test
+--- /dev/null
++++ b/tests/java/io/ahad/rechnungflow/testing/ServerResponseTest.java
+@@ -0,0 +1,101 @@
++package io.ahad.rechnungflow.testing;
++
++import com.sun.net.httpserver.Headers;
++import com.sun.net.httpserver.HttpContext;
++import com.sun.net.httpserver.HttpExchange;
++import com.sun.net.httpserver.HttpPrincipal;
++import io.ahad.rechnungflow.server.ApiServer;
++import java.io.*;
++import java.lang.reflect.InvocationTargetException;
++import java.lang.reflect.Method;
++import java.net.InetSocketAddress;
++import java.net.URI;
++import java.nio.charset.StandardCharsets;
++import java.util.Arrays;
++import static io.ahad.rechnungflow.testing.TestKit.*;
++
++/** Reproduces buffered response delivery without requiring one particular JDK version. */
++public final class ServerResponseTest {
++    public static void main(String[] args) throws Exception {
++        TestKit t = new TestKit("server-response");
++        // Exercise the real writer without opening a public route or changing its visibility.
++        Method raw = ApiServer.class.getDeclaredMethod("raw", HttpExchange.class, int.class, String.class, byte[].class);
++        raw.setAccessible(true);
++        try (ApiServer server = new ApiServer("127.0.0.1", 0, null, "test", null, null, null)) {
++            t.test("Small 413 response is flushed before request-body cleanup", () -> {
++                BufferedExchange exchange = new BufferedExchange(false);
++                byte[] payload = "{\"error\":{\"code\":\"FILE_TOO_LARGE\"}}".getBytes(StandardCharsets.UTF_8);
++                invoke(raw, server, exchange, 413, "application/json; charset=utf-8", payload);
++                eq(413, exchange.getResponseCode());
++                eq((long) payload.length, exchange.length);
++                eq("application/json; charset=utf-8", exchange.getResponseHeaders().getFirst("Content-Type"));
++                yes(Arrays.equals(payload, exchange.wire.toByteArray()));
++                yes(!exchange.closed);
++            });
++            t.test("Binary response is flushed without changing its bytes", () -> {
++                BufferedExchange exchange = new BufferedExchange(false);
++                byte[] payload = new byte[257];
++                for (int i = 0; i < payload.length; i++) payload[i] = (byte) i;
++                invoke(raw, server, exchange, 200, "application/octet-stream", payload);
++                yes(Arrays.equals(payload, exchange.wire.toByteArray()));
++            });
++            t.test("Response flush failures are not silently swallowed", () -> {
++                BufferedExchange exchange = new BufferedExchange(true);
++                boolean failed = false;
++                try {
++                    invoke(raw, server, exchange, 200, "text/plain", new byte[]{1});
++                } catch (IOException expected) {
++                    failed = true;
++                }
++                yes(failed);
++            });
++        }
++        t.finish("build/test-results/server-response.xml");
++    }
++
++    private static void invoke(Method raw, ApiServer server, HttpExchange exchange, int status, String type, byte[] payload) throws Exception {
++        try {
++            raw.invoke(server, exchange, status, type, payload);
++        } catch (InvocationTargetException wrapped) {
++            if (wrapped.getCause() instanceof Exception cause) throw cause;
++            throw wrapped;
++        }
++    }
++
++    /** Input is deliberately unreadable: early errors must not consume the rejected upload. */
++    private static final class BufferedExchange extends HttpExchange {
++        private final Headers requestHeaders = new Headers();
++        private final Headers responseHeaders = new Headers();
++        private final ByteArrayOutputStream wire = new ByteArrayOutputStream();
++        private final OutputStream response;
++        private int status = -1;
++        private long length;
++        private boolean closed;
++
++        BufferedExchange(boolean failFlush) {
++            response = new BufferedOutputStream(wire) {
++                @Override public void flush() throws IOException {
++                    if (failFlush) throw new IOException("Synthetic transport flush failure");
++                    super.flush();
++                }
++            };
++        }
++        @Override public Headers getRequestHeaders() { return requestHeaders; }
++        @Override public Headers getResponseHeaders() { return responseHeaders; }
++        @Override public URI getRequestURI() { return URI.create("/api/invoices"); }
++        @Override public String getRequestMethod() { return "POST"; }
++        @Override public HttpContext getHttpContext() { return null; }
++        @Override public void close() { closed = true; }
++        @Override public InputStream getRequestBody() { throw new AssertionError("Rejected input must not be read by the response writer"); }
++        @Override public OutputStream getResponseBody() { return response; }
++        @Override public void sendResponseHeaders(int code, long responseLength) { status = code; length = responseLength; }
++        @Override public InetSocketAddress getRemoteAddress() { return new InetSocketAddress("127.0.0.1", 12345); }
++        @Override public int getResponseCode() { return status; }
++        @Override public InetSocketAddress getLocalAddress() { return new InetSocketAddress("127.0.0.1", 8080); }
++        @Override public String getProtocol() { return "HTTP/1.1"; }
++        @Override public Object getAttribute(String name) { return null; }
++        @Override public void setAttribute(String name, Object value) { }
++        @Override public void setStreams(InputStream input, OutputStream output) { throw new UnsupportedOperationException(); }
++        @Override public HttpPrincipal getPrincipal() { return null; }
++    }
++}

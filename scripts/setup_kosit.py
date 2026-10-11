@@ -22,7 +22,9 @@ def safe_extract(archive:Path,target:Path)->None:
         if len(entries)>20000 or sum(x.file_size for x in entries)>600*1024*1024: raise ValueError('Archive limits exceeded')
         seen=set()
         for info in entries:
-            name=info.filename
+            # Validate the archive's original name before ZipInfo can normalize
+            # Windows separators or truncate a name at an embedded NUL.
+            name=info.orig_filename
             p=PurePosixPath(name)
             if not name or '\\' in name or p.is_absolute() or '..' in p.parts or ':' in name or '\x00' in name: raise ValueError('Unsafe archive path')
             if stat.S_ISLNK(info.external_attr>>16): raise ValueError('Symbolic link in archive')

@@ -1,0 +1,51 @@
+test_ambiguous_assets_fail_closed (__main__.Installer.test_ambiguous_assets_fail_closed) ... ok
+test_config_release_selected (__main__.Installer.test_config_release_selected) ... ok
+test_digest_absent_fails_before_network (__main__.Installer.test_digest_absent_fails_before_network) ... ok
+test_duplicate_casefold_paths (__main__.Installer.test_duplicate_casefold_paths) ... ok
+test_existing_file_not_overwritten (__main__.Installer.test_existing_file_not_overwritten) ... ok
+test_explicit_direct_standalone_selected (__main__.Installer.test_explicit_direct_standalone_selected) ... ok
+test_fixture_preserves_raw_names (__main__.Installer.test_fixture_preserves_raw_names) ... ok
+test_no_config_assets_fail_closed (__main__.Installer.test_no_config_assets_fail_closed) ... ok
+test_normal_nested_file (__main__.Installer.test_normal_nested_file) ... ok
+test_reject_absolute (__main__.Installer.test_reject_absolute) ... ok
+test_reject_backslash (__main__.Installer.test_reject_backslash) ... ok
+test_reject_backslash_after_windows_normalization (__main__.Installer.test_reject_backslash_after_windows_normalization) ... FAIL
+test_reject_drive (__main__.Installer.test_reject_drive) ... ok
+test_reject_nested_parent (__main__.Installer.test_reject_nested_parent) ... ok
+test_reject_null_byte (__main__.Installer.test_reject_null_byte) ... FAIL
+test_reject_parent (__main__.Installer.test_reject_parent) ... ok
+test_reject_reserved_com (__main__.Installer.test_reject_reserved_com) ... ok
+test_reject_reserved_con (__main__.Installer.test_reject_reserved_con) ... ok
+test_reject_reserved_nul (__main__.Installer.test_reject_reserved_nul) ... ok
+test_reject_trailing_dot (__main__.Installer.test_reject_trailing_dot) ... ok
+test_reject_trailing_space (__main__.Installer.test_reject_trailing_space) ... ok
+test_sha_is_exact_bytes (__main__.Installer.test_sha_is_exact_bytes) ... ok
+test_source_archive_not_validator (__main__.Installer.test_source_archive_not_validator) ... ok
+test_symlink_rejected (__main__.Installer.test_symlink_rejected) ... ok
+test_unknown_repository_download_rejected_before_network (__main__.Installer.test_unknown_repository_download_rejected_before_network) ... ok
+
+======================================================================
+FAIL: test_reject_backslash_after_windows_normalization (__main__.Installer.test_reject_backslash_after_windows_normalization)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/rechnungflow_review/rechnungflow/tests/installer_test.py", line 31, in test_reject_backslash_after_windows_normalization
+    with self.assertRaises(ValueError):installer.safe_extract(archive,self.root/'out')
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_reject_null_byte (__main__.Installer.test_reject_null_byte)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/rechnungflow_review/rechnungflow/tests/installer_test.py", line 64, in test
+    def test(self):self.bad(v)
+                   ~~~~~~~~^^^
+  File "/mnt/data/rechnungflow_review/rechnungflow/tests/installer_test.py", line 18, in bad
+    with self.assertRaises((ValueError,OSError)):installer.safe_extract(self.archive(name),self.root/'output')
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'ValueError'>, <class 'OSError'>) not raised
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.009s
+
+FAILED (failures=2)

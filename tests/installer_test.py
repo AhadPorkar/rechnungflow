@@ -1,5 +1,6 @@
 """Offline installer adversarial cases; no download or official acceptance is simulated."""
 from pathlib import Path
+from unittest.mock import patch
 import sys,tempfile,zipfile,stat,hashlib,json,unittest
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 import setup_kosit as installer
@@ -9,10 +10,25 @@ class Installer(unittest.TestCase):
  def tearDown(self):self.temp.cleanup()
  def archive(self,name,body='synthetic'):
   p=self.root/'input.zip'
-  with zipfile.ZipFile(p,'w') as z:z.writestr(name,body)
+  # Keep hostile fixture names verbatim on every OS, including Windows.
+  info=zipfile.ZipInfo();info.filename=name;info.orig_filename=name
+  with zipfile.ZipFile(p,'w') as z:z.writestr(info,body)
   return p
  def bad(self,name):
   with self.assertRaises((ValueError,OSError)):installer.safe_extract(self.archive(name),self.root/'output')
+ def test_fixture_preserves_raw_names(self):
+  for name in ('a\\escape','safe.xml\x00suffix'):
+   with self.subTest(name=name):
+    archive=self.archive(name)
+    with zipfile.ZipFile(archive) as z:self.assertEqual(name,z.infolist()[0].orig_filename)
+    self.assertEqual(2,archive.read_bytes().count(name.encode('ascii')))
+ def test_reject_backslash_after_windows_normalization(self):
+  archive=self.archive('a\\escape')
+  # Exercise ZipInfo's Windows normalization even when this suite runs on Linux.
+  with patch.object(zipfile.os,'sep','\\'):
+   with zipfile.ZipFile(archive) as z:
+    info=z.infolist()[0];self.assertEqual('a/escape',info.filename);self.assertEqual('a\\escape',info.orig_filename)
+   with self.assertRaises(ValueError):installer.safe_extract(archive,self.root/'out')
  def test_normal_nested_file(self):
   installer.safe_extract(self.archive('config/scenarios.xml'),self.root/'out');self.assertEqual('synthetic',(self.root/'out/config/scenarios.xml').read_text())
  def test_duplicate_casefold_paths(self):
@@ -43,7 +59,7 @@ class Installer(unittest.TestCase):
   with self.assertRaises(ValueError):installer.download({'browser_download_url':'https://github.com/itplr-kosit/validator/releases/download/v1.6.3/file.jar'},'validator',self.root/'x',False)
  def test_sha_is_exact_bytes(self):
   p=self.root/'bytes';p.write_bytes(b'\x00\xffexample');self.assertEqual(hashlib.sha256(p.read_bytes()).hexdigest(),installer.sha(p))
-for name,value in {'parent':'../escape','nested_parent':'a/../../escape','absolute':'/tmp/escape','backslash':'a\\escape','drive':'C:/escape','reserved_con':'CON.txt','reserved_nul':'NUL','reserved_com':'sub/COM1.xml','trailing_space':'file.xml ','trailing_dot':'name.'}.items():
+for name,value in {'parent':'../escape','nested_parent':'a/../../escape','absolute':'/tmp/escape','backslash':'a\\escape','drive':'C:/escape','reserved_con':'CON.txt','reserved_nul':'NUL','reserved_com':'sub/COM1.xml','trailing_space':'file.xml ','trailing_dot':'name.','null_byte':'safe.xml\x00suffix'}.items():
  def make(v):
   def test(self):self.bad(v)
   return test

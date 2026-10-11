@@ -101,7 +101,13 @@ public final class ApiServer implements AutoCloseable {
     private int number(Map<String,String>q,String key,int fallback){try{return q.containsKey(key)?Integer.parseInt(q.get(key)):fallback;}catch(NumberFormatException e){throw Problem.of(400,"INVALID_PAGINATION");}}
     private void requireMethod(String actual,String expected){Problem.require(actual.equals(expected),405,"METHOD_NOT_ALLOWED");}
     private void send(HttpExchange e,int status,Object body)throws IOException{raw(e,status,"application/json; charset=utf-8",Json.stringify(body).getBytes(StandardCharsets.UTF_8));}
-    private void raw(HttpExchange e,int status,String type,byte[] b)throws IOException{e.getResponseHeaders().set("Content-Type",type);e.sendResponseHeaders(status,b.length);e.getResponseBody().write(b);}
+    private void raw(HttpExchange e,int status,String type,byte[] b)throws IOException{
+        e.getResponseHeaders().set("Content-Type",type);e.sendResponseHeaders(status,b.length);
+        OutputStream output=e.getResponseBody();output.write(b);
+        // Deliver buffered responses before handle() closes the exchange. Closing
+        // may first drain unread input, including a rejected, incomplete upload.
+        output.flush();
+    }
     private void download(HttpExchange e,String name,String type,byte[] b)throws IOException{e.getResponseHeaders().set("Content-Disposition","attachment; filename=\""+name+"\"");raw(e,200,type,b);}
     private void staticFile(HttpExchange e,String path)throws IOException{
         if(path.equals("/"))path="/index.html";
